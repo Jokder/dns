@@ -32,6 +32,7 @@ WhiteListServer=http://chinadomains.info/whitelist/getall		#白名單地址
 ```
 
 
-#補充
+
+#Supplementary
 release裏面的whitelist-tool.zip是一個白名單服務器,你可以自己部署一個,在dns服務器的配置文件中修改白名單地址即可
 whitelist-tool可以部署到windows或者linux上,是golang編譯出來的,理論上在絕大多數電腦都能直接運行,不需要安裝什麽依賴庫.whitelist-toole的默認端口是89,具體可以在conf裏面修改配置.
