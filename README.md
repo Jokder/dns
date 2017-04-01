@@ -29,6 +29,7 @@ IspDnsServer=114.114.114.114		#一個用來解析白名單的,中國的DNS的上
 OtherDnsServer=8.8.4.4		#其他DNS服務器,默認爲8.8.8.8
 GlobalDnsServer=$OtherDnsServer		#全局DNS服務器的上游,可以填寫具體的IP,也可以填寫上面的兩個上游的名字
 WhiteListServer=http://chinadomains.info/whitelist/getall		#白名單地址
+```
 
 #補充
 release裏面的whitelist-tool.zip是一個白名單服務器,你可以自己部署一個,在dns服務器的配置文件中修改白名單地址即可
