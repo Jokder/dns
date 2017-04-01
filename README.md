@@ -11,6 +11,7 @@ Kernel code is forked from:https://github.com/kapetan/dns.
 # Support Platform
 
 Windows上需要安裝.net framework 4.5+
+
 linux上需要安裝mono(我也不曉得需要安裝什麽版本的mono,請執行安裝目前最新的一定可行)
 
 
