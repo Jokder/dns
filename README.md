@@ -1,102 +1,33 @@
-﻿# DNS
+﻿# DNS server
+Kernel code is forked from:https://github.com/kapetan/dns.
 
-A DNS library written in C#. It needs .NET 4 to run. Available through NuGet.
+#Description
 
-	Install-Package DNS
+這是一個簡易的dns服務器,可以部署到本機,或者局域網的其他機器.主要是爲了解決中國dns污染以及在解決了dns污染以後還能解析到正確的cdn.主要原理是内置了兩個dns上游,一個isp的dns上游,一個國外的dns上游,一個中國域名的白名單.在白名單的域名將會通過isp的dns上游解析,其他通過國外的例如8.8.8.8來解析.
+因爲爲了編譯出來的可執行文件衹有一個,沒有其他dll,因此使用的別人的輪子目前是把別人的輪子的代碼copy到項目中的,代碼還在整理,過些日子會上傳上來.
+
+#Support Platform
+
+Windows上需要安裝.net framework 4.5+
+linux上需要安裝mono(我也不曉得需要安裝什麽版本的mono,請執行安裝目前最新的一定可行)
+
 
 # Usage
 
-The library exposes a `Request` and `Response` classes for parsing and creating DNS messages. These can be serialzed to byte arrays.
+請在release裏面下載可執行文件.
+### Windows
+雙擊magic-dns.exe
+### Linux
+./magic-dns.exe
 
-```C#
-Request request = new Request();
+#Config
+#only ip support
+Port=53	#啓動該dns服務器所使用的端口,默認爲53.
+IspDnsServer=114.114.114.114		#一個用來解析白名單的,中國的DNS的上游,默認爲114.114.114.114,推薦使用ISP提供的
+OtherDnsServer=8.8.4.4		#其他DNS服務器,默認爲8.8.8.8
+GlobalDnsServer=$OtherDnsServer		#全局DNS服務器的上游,可以填寫具體的IP,也可以填寫上面的兩個上游的名字
+WhiteListServer=http://chinadomains.info/whitelist/getall		#白名單地址
 
-request.RecursionDesired = true;
-request.Id = 123;
-
-UdpClient udp = new UdpClient();
-IPEndPoint google = new IPEndPoint(IPAddress.Parse("8.8.8.8"), 53);
-
-// Connect to google's DNS server
-udp.Connect(google);
-udp.Send(request.ToArray(), request.Size);
-
-byte[] buffer = udp.Receive(ref google);
-Response response = Response.FromArray(buffer);
-
-// Outputs an human readable representation
-Console.WriteLine(response);
-```
-
-### Client
-
-The libray also includes a small client and a proxy server. Using the `ClientRequest` or the `DnsClient` class it is possible to send a request to a Domain Name Server. The request is first sent using UDP, if that fails (response is truncated), the request is sent again using TCP. This behaviour can be changed by supplying an `IRequestResolver` to the client constructor.
-
-```C#
-ClientRequest request = new ClientRequest("8.8.8.8");
-
-// Request an IPv6 record for the foo.com domain
-request.Questions.Add(new Question(Domain.FromString("foo.com"), RecordType.AAAA));
-request.RecursionDesired = true;
-
-ClientResponse response = request.Resolve();
-
-// Get all the IPs for the foo.com domain
-IList<IPAddress> ips = response.AnswerRecords
-	.Where(r => r.Type == RecordType.AAAA)
-	.Cast<IPAddressResourceRecord>()
-	.Select(r => r.IPAddress)
-	.ToList();
-```
-
-The `DnsClient` class contains some conveniance methods for creating instances of `ClientRequest` and resolving domains.
-
-```C#
-// Bind to a Domain Name Server
-DnsClient client = new DnsClient("8.8.8.8");
-
-// Create request bound to 8.8.8.8
-ClientRequest request = client.Create();
-
-// Returns a list of IPs
-IList<IPAddress> ips = client.Resolve("foo.com");
-
-// Get the domain name belonging to the IP (google.com)
-string domain = client.Reverse("173.194.69.100");
-```
-
-### Server
-
-The `DnsServer` class exposes a proxy Domain Name Server (UDP only). You can intercept domain name resolution requests and route them to specified IPs. The server is multi-threaded and spawns a thread for every request. It also emits an event on every request and every successful resolution. All the events are executed in the same separate thread.
-
-```C#
-// Proxy to google's DNS
-DnsServer server = new DnsServer("8.8.8.8");
-
-// Resolve these domain to localhost
-server.MasterFile.AddIPAddressResourceRecord("google.com", "127.0.0.1");
-server.MasterFile.AddIPAddressResourceRecord("github.com", "127.0.0.1");
-
-// Log every request
-server.Requested += (request) => Console.WriteLine(request);
-// On every successful request log the request and the response
-server.Responded += (request, response) => Console.WriteLine("{0} => {1}", request, response);
-
-// Start the server (by default it listents on port 53)
-server.Listen();
-```
-
-Note that since the events are executed in a separate thread it's not possible to modify the `request` instance in the `server.Requested` callback.
-
-# License 
-
-**This software is licensed under "MIT"**
-
-> Copyright (c) 2012 Mirza Kapetanovic
-> 
-> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-> 
-> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-> 
-> THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+#補充
+release裏面的whitelist-tool.zip是一個白名單服務器,你可以自己部署一個,在dns服務器的配置文件中修改白名單地址即可
+whitelist-tool可以部署到windows或者linux上,是golang編譯出來的,理論上在絕大多數電腦都能直接運行,不需要安裝什麽依賴庫.whitelist-toole的默認端口是89,具體可以在conf裏面修改配置.
