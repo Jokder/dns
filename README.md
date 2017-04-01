@@ -27,6 +27,7 @@ linux上需要安裝mono(我也不曉得需要安裝什麽版本的mono,請執�
 
 
 # Config
+
 #only ip support
 ```conf
 Port=53	#啓動該dns服務器所使用的端口,默認爲53.
