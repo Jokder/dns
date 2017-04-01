@@ -1,0 +1,26 @@
+{
+  "name": "dnsTool",
+  "version": "0.0.1",
+  "description": "a ddns transfer tool",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jokder/ddnsTRANS.git"
+  },
+  "keywords": [
+    "ddns"
+  ],
+  "author": "joker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jokder/ddnsTRANS/issues"
+  },
+  "homepage": "https://github.com/Jokder/ddnsTRANS",
+  "dependencies": {
+    "express": "^4.13.4",
+    "passport-google-oauth2": "^0.1.6"
+  }
+}

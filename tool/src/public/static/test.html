@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="testApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="modules/angular/angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("testApp",[]);
+        app.controller("testCtrl", ['$scope','$interval','$http', function ($scope,$interval,$http) {
+            $scope.count=0;
+            (function () {
+                $http.get("http://hk.icephenix.com:2016/ip",{withCredentials: true}).success(function (rep) {
+                    $scope.count=rep;
+                })
+            })();
+            $scope.yourname="lugang";
+//            $interval(function () {
+//            },1*1000);
+        }]);
+    </script>
+</head>
+<body ng-controller="testCtrl">
+Your name: <input type="text" ng-model="yourname" placeholder="请输入">
+<hr>
+<span>{{count}}</span>
+{{yourname || 1+5}}!
+</body>
+</html>

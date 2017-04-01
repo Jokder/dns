@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dnsTool">
+<head>
+    <meta charset="UTF-8">
+    <title>China DNS Server White List Tool</title>
+    <!--Style Modules-->
+    <link type="text/css" rel="stylesheet" href="static/modules/bootstrap/dist/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="static/modules/bootstrap/dist/css/bootstrap-theme.min.css">
+
+    <!--Custom Style-->
+    <link type="text/css" rel="stylesheet" href="static/css/app.css">
+    <!--Scripts-->
+    <script type="text/javascript" src="static/modules/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="static/modules/linq/linq.min.js"></script>
+    <script type="text/javascript" src="static/common.js"></script>
+    <script type="text/javascript" src="static/modules/angular/angular.min.js"></script>
+
+    <script type="text/javascript" src="static/app.js"></script>
+    <script type="text/javascript" src="static/controllers/indexCtrl.js"></script>
+</head>
+
+<body ng-controller="indexCtrl" class="ng-scope">
+<div style="text-align: center;margin-top: 30px;">
+    <div class="alert alert-success" role="alert" ng-bind="data.successMessage"
+         ng-show="data.successMessage != ''"></div>
+    <div class="alert alert-warning" role="alert" ng-bind="data.failMessage"
+         ng-show="data.failMessage != ''"></div>
+    <div>
+        <h1>ChinA DNS Server White List:</h1>
+        <br>
+    </div>
+    <div class="row text-center" style="margin-top: 20px;">
+        <div class="col-md-5 col-md-offset-4">
+            <div class="panel panel-default" style="margin-top: 20px;">
+                <div class="panel-heading">
+                    <h3 style="color: red;">Please type domain or url</h3>
+                    <br>
+                    <button ng-click="action.addDomain();" class="btn btn-info pull-left" type="button"
+                            style="height: 30px;">Add
+                    </button>
+                </div>
+                <div class="panel-body">
+                   <textarea ng-model="data.addDomainList" class="form-control col-md-5"
+                             placeholder="Type a domain per line"
+                             style="height: 100px;">
+                </textarea>
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-top: 20px;">
+                <div class="panel-heading">
+                    Current White Domain List
+                    <br>
+                    <button ng-click="action.getCurrentDomains();" class="btn btn-info pull-left" type="button"
+                            style="height: 30px;">
+                        <i class="glyphicon glyphicon-refresh"></i>{{' '}}Refresh
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <textarea ng-model="data.currentDomainList" class="form-control" placeholder="Current Domains"
+                              style="height: 600px;" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="static/modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</html>
