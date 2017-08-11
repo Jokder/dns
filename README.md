@@ -6,11 +6,12 @@ Kernel code is forked from:https://github.com/kapetan/dns.
 
 這是一個簡易的dns服務器,可以部署到本機,或者局域網的其他機器.主要是爲了解決中國dns污染以及在解決了dns污染以後還能解析到正確的cdn.主要原理是内置了兩個dns上游,一個isp的dns上游,一個國外的dns上游,一個中國域名的白名單.在白名單的域名將會通過isp的dns上游解析,其他通過國外的例如8.8.8.8來解析.
 
-
+請搭配[shadowsocks](https://github.com/shadowsocks/shadowsocks-libev)的ss-tunnel來轉發國外的無污染dns上游
 
 # Support Platform
 
 Windows上需要安裝.net framework 4.5+
+
 linux上需要安裝mono(我也不曉得需要安裝什麽版本的mono,請執行安裝目前最新的一定可行)
 
 
@@ -26,6 +27,7 @@ linux上需要安裝mono(我也不曉得需要安裝什麽版本的mono,請執�
 
 
 # Config
+
 #only ip support
 ```conf
 Port=53	#啓動該dns服務器所使用的端口,默認爲53.
