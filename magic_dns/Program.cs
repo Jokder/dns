@@ -15,7 +15,7 @@ namespace magic_dns
         public static void Main(string[] args)
         {
             Console.WriteLine("downloading whitelist...");
-            DownloadWhiteList();
+            //DownloadWhiteList();
             Console.WriteLine("download whitelist complete");
             DnsServer server = new DnsServer(new Configer());
             Console.WriteLine("launch dns server.");

@@ -15,4 +15,5 @@ import (
 func init() {
 	beego.AutoRouter(&controllers.UserController{})
 	beego.AutoRouter(&controllers.WhiteListController{})
+	beego.AutoRouter(&controllers.IpController{})
 }

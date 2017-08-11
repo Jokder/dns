@@ -18,7 +18,7 @@ type WhiteListController struct {
 	beego.Controller
 }
 
-func (this *WhiteListController) GetALl() {
+func (this *WhiteListController) GetAll() {
 	fileContent, _ := getFileLines("public/white-list.txt")
 	this.Data["json"] = fileContent
 	this.ServeJSON()
